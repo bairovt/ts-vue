@@ -5,7 +5,7 @@ import jwtDecode from 'jwt-decode'
 
 Vue.use(Vuex)
 
-export const store = new Vuex.Store({
+export default new Vuex.Store({
   state: {
     user: null,
     loading: false,
@@ -29,7 +29,7 @@ export const store = new Vuex.Store({
       state.loading = payload // boolean
     },
     setError(state, appError) {
-      const defaultErrorMsgs = { 500: 'Ошибка сервера', 403: 'Запрещено', 401: 'Ошибка авторизации', 400: 'bad request' }
+      const defaultErrorMsgs = { 500: 'Ошибка сервера', 404: 'Не найдено', 403: 'Запрещено', 401: 'Ошибка авторизации', 400: 'bad request' }
       state.error = appError
       if (!state.error.message) {
         Vue.set(state.error, 'message', defaultErrorMsgs[appError.status])
@@ -45,15 +45,14 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
-    autoSingIn({
-      commit,
-      dispatch
+    autoLogIn({
+      commit
     }) {
       const authToken = window.localStorage.getItem('authToken')
       if (authToken) {
         commit('setUser', jwtDecode(authToken)); // todo: разлогинивание конкретного юзера с сервера
       } else {
-        router.push('/signin')
+        router.push('/login')
       }
     },
     logOut({
