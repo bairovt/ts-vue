@@ -1,11 +1,10 @@
 'use strict';
 const axios = require('axios');
 import store from '@/store'
-import router from '@/router'
 
 const axiosInst = axios.create({
   // baseURL: process.env.VUE_APP_API_URL,
-  baseURL: 'http://localhost:3000',
+  baseURL: 'http://localhost:7000',
   timeout: process.env.NODE_ENV === 'development' ? 60000 : 10000 // todo: error dialog when canceled by timeout
 });
 
@@ -40,21 +39,18 @@ axiosInst.interceptors.response.use(
   function (error) {
     // The request was made, but the server responded with a status code that falls out of the range of 2xx
     store.commit('setLoading', false)
-
     if (error.response) {
       const status = error.response.status
-      let appError = {
-        status,
-        message: error.response.data.message
-      }
       if (
-        status === 401 &&
-        router.history.current.path !== '/login'
+        status === 401 // when jwt changed etc
+        // router.history.current.path !== '/login'
       ) {
-        console.error('auth error: redirect to login')
-        store.dispatch('logOut')
+        store.dispatch('logout')
       } else {
-        store.commit('setError', appError)
+        store.commit('setError', {
+          status,
+          message: error.response.data.message
+        })
       }
     } else {
       store.commit('setError', {

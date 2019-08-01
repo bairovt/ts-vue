@@ -34,7 +34,7 @@ export default new Vuex.Store({
       if (!state.error.message) {
         Vue.set(state.error, 'message', defaultErrorMsgs[appError.status])
       }
-      // when 401 there is no need to open error dialog due to alert is already  shown
+      // when 401 there is no need to open error dialog due to alert is already shown
       if (appError.status !== 401) Vue.set(state.error, 'dialog', true)
     },
     clearError(state) {
@@ -55,7 +55,7 @@ export default new Vuex.Store({
         router.push('/login')
       }
     },
-    logOut({
+    logout({
       commit
     }) {
       commit('setUser', null)

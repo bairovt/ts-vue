@@ -9,7 +9,7 @@
     <v-layout row>
       <v-flex xs12 sm6 offset-sm3>
         <h2 class="mb-4">Вход</h2>
-        <form @submit.prevent="logIn">
+        <form @submit.prevent="login">
           <v-text-field
             name="email"
             label="e-mail"
@@ -54,7 +54,7 @@ export default {
     }
   },
   methods: {
-    logIn() {
+    login() {
       this.$store.commit("clearError");
       axiosInst
         .post("/api/users/login", {
@@ -62,12 +62,18 @@ export default {
           password: this.password
         })
         .then(resp => {
-          const { token } = resp.data;
-          window.localStorage.setItem("authToken", token);
-          this.$store.commit("setUser", jwtDecode(token));
+          const { authToken } = resp.data;
+          window.localStorage.setItem("authToken", authToken);
+          this.$store.commit("setUser", jwtDecode(authToken));
           this.$router.push("/orders");
         })
-        .catch(console.error);
+        .catch(err => {
+          console.error(err);
+          this.$store.commit("setError", {
+            status: err.response.status,
+            message: err.response.data.message
+          });
+        });
     }
   }
 };
