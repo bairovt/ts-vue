@@ -45,7 +45,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    autoLogIn({
+    autoLogin({
       commit
     }) {
       const authToken = window.localStorage.getItem('authToken')
