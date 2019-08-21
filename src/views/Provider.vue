@@ -4,11 +4,13 @@
       <v-flex xs12 class="mb-3">
         <v-subheader>Поставщик</v-subheader>
         <h2>
-          <strong>{{provider.name}}</strong>
+          {{provider.name}}
+          <a :href="`tel:${provider.tel}`">{{provider.tel}}</a>
         </h2>
         <br />
         <div>{{provider.comment}}</div>
         <br />
+        <hr />
         <div class="pt-2 pb-2">
           <span>Создал: {{provider.createdBy.name}}</span>
         </div>
