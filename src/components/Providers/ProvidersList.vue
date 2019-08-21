@@ -2,9 +2,6 @@
   <v-list>
     <template v-for="p in providers">
       <v-list-tile avatar :key="p._key" :to="`/providers/${p._key}`">
-        <!-- <v-list-tile-avatar v-if="p.pic">
-          <img :src="`/upload/${p._key}/${p.pic}`" />
-        </v-list-tile-avatar>-->
         <v-list-tile-content>
           <v-list-tile-title>{{p.name}}</v-list-tile-title>
           <v-list-tile-sub-title>{{p.tel}}</v-list-tile-sub-title>

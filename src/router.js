@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 import Users from './views/Users.vue'
 import Providers from './views/Providers.vue'
+import Provider from './views/Provider.vue'
 
 Vue.use(Router)
 
@@ -30,6 +31,11 @@ export default new Router({
       path: '/providers',
       name: 'providers',
       component: Providers
+    },
+    {
+      path: '/providers/:_key',
+      name: 'provider',
+      component: Provider
     },
     {
       path: '/about',
