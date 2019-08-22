@@ -11,7 +11,7 @@
                 <v-text-field autofocus clearable label="Поиск" v-model="search"></v-text-field>
               </v-flex>
               <v-flex xs4 sm2>
-                <v-btn type="submit" class="primary" :loading="loading">Найти</v-btn>
+                <v-btn small round type="submit" class="primary" :loading="loading">Найти</v-btn>
               </v-flex>
             </v-layout>
           </v-container>
@@ -46,8 +46,13 @@ export default {
   methods: {
     find() {
       this.noResults = false;
+      let search = !this.search ? "" : this.search.trim();
       axiosInst
-        .get(`/api/providers?search=${this.search.trim()}`)
+        .get(`/api/providers`, {
+          params: {
+            search
+          }
+        })
         .then(resp => {
           this.providers = resp.data.providers;
           if (!this.providers.length) this.noResults = true;
