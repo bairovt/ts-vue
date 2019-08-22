@@ -10,7 +10,7 @@
     ></v-text-field>
 
     <v-text-field name="tel" label="телефон" type="text" v-model="provider.tel"></v-text-field>
-    <v-text-field name="place" label="телефон" type="text" v-model="provider.place"></v-text-field>
+    <v-text-field name="place" label="место" type="text" v-model="provider.place"></v-text-field>
 
     <v-textarea
       id="comment"

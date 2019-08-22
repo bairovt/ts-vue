@@ -76,16 +76,6 @@ export default {
         })
         .catch(console.error);
     },
-    deleteProvider() {
-      if (confirm(`Подтвердить удаление: ${this.provider.name}?`)) {
-        axiosInst
-          .delete(`/api/providers/${this.provider._key}`)
-          .then(resp => {
-            this.$router.push("/providers");
-          })
-          .catch(console.error);
-      }
-    },
     updateProvider() {
       axiosInst
         .patch(`/api/providers/${this.provider._key}`, {
@@ -101,6 +91,16 @@ export default {
           this.editDialog = false;
         })
         .catch(console.error);
+    },
+    deleteProvider() {
+      if (confirm(`Подтвердить удаление: ${this.provider.name}?`)) {
+        axiosInst
+          .delete(`/api/providers/${this.provider._key}`)
+          .then(resp => {
+            this.$router.push("/providers");
+          })
+          .catch(console.error);
+      }
     }
   },
   created() {

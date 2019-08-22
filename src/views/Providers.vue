@@ -13,6 +13,9 @@
               <v-flex xs4 sm2>
                 <v-btn small round type="submit" class="primary" :loading="loading">Найти</v-btn>
               </v-flex>
+              <v-flex xs4 sm2>
+                <v-btn small round @click="createDialog=true" :loading="loading">Создать</v-btn>
+              </v-flex>
             </v-layout>
           </v-container>
         </form>
@@ -23,6 +26,20 @@
         <p class="text-xs-center" v-if="noResults">Не найдено</p>
       </v-flex>
     </v-layout>
+
+    <v-dialog v-model="createDialog" max-width="600px" :fullscreen="$vuetify.breakpoint.xsOnly">
+      <v-card>
+        <v-card-title class="grey lighten-2">Создать поставщика</v-card-title>
+
+        <v-card-text>
+          <provider-fields :provider="newProvider"></provider-fields>
+        </v-card-text>
+        <v-card-actions class="text-xs-center">
+          <v-btn small @click.stop="createProvider" class="primary" :loading="loading">Создать</v-btn>
+          <v-btn small class="ml-3" @click.stop="createDialog=false">Отмена</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -34,8 +51,15 @@ export default {
   data() {
     return {
       providers: [],
+      newProvider: {
+        name: null,
+        tel: null,
+        place: null,
+        comment: null
+      },
       search: "",
-      noResults: false
+      noResults: false,
+      createDialog: false
     };
   },
   computed: {
@@ -56,6 +80,17 @@ export default {
         .then(resp => {
           this.providers = resp.data.providers;
           if (!this.providers.length) this.noResults = true;
+        })
+        .catch(console.error);
+    },
+    createProvider() {
+      axiosInst
+        .post(`/api/providers`, {
+          providerData: this.newProvider
+        })
+        .then(resp => {
+          this.createDialog = false;
+          // this.$router.go();
         })
         .catch(console.error);
     }
