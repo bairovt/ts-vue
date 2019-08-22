@@ -2,7 +2,9 @@
   <v-container>
     <v-layout row wrap v-if="provider._key">
       <v-flex xs12 class="mb-3">
-        <v-subheader>Поставщик</v-subheader>
+        <v-subheader>
+          <router-link to="/providers">Поставщики</router-link>&nbsp;/ Поставщик
+        </v-subheader>
         <h2>
           {{provider.name}}
           <a :href="`tel:${provider.tel}`">{{provider.tel}}</a>
@@ -18,8 +20,8 @@
 
       <v-flex xs12 sm3 class="text-xs-center">
         <div v-if="provider.editable">
-          <v-btn flat outline small @click.stop="deleteProvider">Удалить</v-btn>
           <v-btn small color="accent" @click.stop="editDialog=true">Изменить</v-btn>
+          <v-btn flat outline small @click.stop="deleteProvider">Удалить</v-btn>
         </div>
       </v-flex>
     </v-layout>
@@ -31,13 +33,14 @@
       :fullscreen="$vuetify.breakpoint.xsOnly"
     >
       <v-card>
-        <v-card-text>
-          <!-- <provider-fields :provider="provider" :info="true"></provider-fields> -->
-        </v-card-text>
+        <v-card-title class="grey lighten-2">Изменение</v-card-title>
 
-        <v-card-actions>
-          <v-btn @click.stop="updateProvider" class="primary" :loading="loading">Сохранить</v-btn>
-          <v-btn class="ml-3" @click.stop="editDialog=false">Отмена</v-btn>
+        <v-card-text>
+          <provider-fields :provider="provider"></provider-fields>
+        </v-card-text>
+        <v-card-actions class="text-xs-center">
+          <v-btn small @click.stop="updateProvider" class="primary" :loading="loading">Сохранить</v-btn>
+          <v-btn small class="ml-3" @click.stop="editDialog=false">Отмена</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -86,7 +89,12 @@ export default {
     updateProvider() {
       axiosInst
         .patch(`/api/providers/${this.provider._key}`, {
-          provider: this.provider
+          providerData: {
+            name: this.provider.name,
+            tel: this.provider.tel,
+            place: this.provider.place,
+            comment: this.provider.comment
+          }
         })
         .then(resp => {
           this.loadProvider();
