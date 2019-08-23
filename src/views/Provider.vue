@@ -1,10 +1,10 @@
 <template>
   <v-container>
+    <v-subheader>
+      <router-link to="/providers">Поставщики</router-link>&nbsp;/ Поставщик
+    </v-subheader>
     <v-layout row wrap v-if="provider._key">
       <v-flex xs12 class="mb-3">
-        <v-subheader>
-          <router-link to="/providers">Поставщики</router-link>&nbsp;/ Поставщик
-        </v-subheader>
         <h2>
           {{provider.name}}
           <a :href="`tel:${provider.tel}`">{{provider.tel}}</a>
@@ -33,7 +33,7 @@
       :fullscreen="$vuetify.breakpoint.xsOnly"
     >
       <v-card>
-        <v-card-title class="grey lighten-2">Изменение</v-card-title>
+        <v-card-title class="grey lighten-2">Изменение поставщика</v-card-title>
 
         <v-card-text>
           <provider-fields :provider="provider"></provider-fields>
@@ -86,7 +86,7 @@ export default {
             comment: this.provider.comment
           }
         })
-        .then(resp => {
+        .then(() => {
           this.loadProvider();
           this.editDialog = false;
         })
@@ -96,7 +96,7 @@ export default {
       if (confirm(`Подтвердить удаление: ${this.provider.name}?`)) {
         axiosInst
           .delete(`/api/providers/${this.provider._key}`)
-          .then(resp => {
+          .then(() => {
             this.$router.push("/providers");
           })
           .catch(console.error);

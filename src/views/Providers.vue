@@ -88,7 +88,7 @@ export default {
         .post(`/api/providers`, {
           providerData: this.newProvider
         })
-        .then(resp => {
+        .then(() => {
           this.createDialog = false;
           // this.$router.go();
         })
