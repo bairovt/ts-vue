@@ -1,0 +1,65 @@
+<template>
+  <div>
+    <v-menu
+      :close-on-content-click="false"
+      v-model="dateMenu"
+      :nudge-right="40"
+      lazy
+      transition="scale-transition"
+      offset-y
+      full-width
+      max-width="290px"
+      min-width="290px"
+    >
+      <v-text-field
+        slot="activator"
+        :value="this.$options.filters.ruDate(this.order.date)"
+        label="дата поставки"
+        prepend-icon="event"
+        readonly
+      ></v-text-field>
+      <v-date-picker v-model="order.date" no-title @input="dateMenu = false" locale="ru-ru"></v-date-picker>
+    </v-menu>
+
+    <v-select :autofocus="true" v-model="order.meat" :items="meats" label="Мясо"></v-select>
+
+    <v-text-field name="kg" label="Вес кг" type="text" v-model="order.kg"></v-text-field>
+
+    <v-autocomplete
+      :items="allProviders"
+      v-model="order.provider"
+      label="Поставщик"
+      item-text="name"
+      item-value="_id"
+      menu-props="auto"
+    ></v-autocomplete>
+    <!-- chips
+    dense
+    clearable-->
+
+    <v-textarea id="comment" name="comment" label="Комментарий" type="text" v-model="order.comment"></v-textarea>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    order: {
+      type: Object
+    }
+  },
+  data() {
+    return {
+      dateMenu: false
+    };
+  },
+  computed: {
+    meats() {
+      return this.$store.state.meats;
+    },
+    allProviders() {
+      return this.$store.state.allProviders;
+    }
+  }
+};
+</script>

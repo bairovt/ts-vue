@@ -15,12 +15,7 @@
 </template>
 
 <script>
-import keyFromId from "@/filters/key-from-id";
-
 export default {
-  props: ["providers"],
-  filters: {
-    keyFromId
-  }
+  props: ["providers"]
 };
 </script>

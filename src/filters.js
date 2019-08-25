@@ -7,27 +7,27 @@ Vue.filter('sum', sum);
 Vue.filter('localeDate', localeDate);
 Vue.filter('status', status);
 Vue.filter('ruDate', ruDate);
-Vue.filter('placeName', placeName);
-Vue.filter('jobName', jobName);
+Vue.filter('providerName', providerName);
+Vue.filter('meatName', meatName);
 
 function keyFromId(id) {
   return id.split('/')[1]
 }
 
-function placeName(placeId) {
-  if (!placeId) return null;
-  const place = store.state.allPlaces.find(el => {
-    return el._id === placeId;
+function meatName(value) {
+  if (!value) return null;
+  const meat = store.state.meats.find(el => {
+    return el.value === value;
   });
-  return place.name;
+  return meat.text;
 }
 
-function jobName(jobId) {
-  if (!jobId) return null;
-  const job = store.state.allJobs.find(el => {
-    return el._id === jobId;
+function providerName(providerId) {
+  if (!providerId) return null;
+  const provider = store.state.allProviders.find(el => {
+    return el._id === providerId;
   });
-  return job.name;
+  return provider ? provider.name : null;
 }
 
 function ruDate(ISOdate) {
