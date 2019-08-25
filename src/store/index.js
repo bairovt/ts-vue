@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import router from '@/router'
 import jwtDecode from 'jwt-decode'
+import axiosInst from '@/utils/axios-instance'
 
 Vue.use(Vuex)
 
@@ -10,11 +11,20 @@ export default new Vuex.Store({
     user: null,
     loading: false,
     error: null,
-    rightDrawer: false,
     rules: {
       required: (v) => !!v || 'Обязательное поле',
       email: (v) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,5})+$/.test(v) || 'E-mail must be valid'
-    }
+    },
+    statuses: [
+      { text: "СОЗДАН", value: "CREATED" },
+      { text: "ЗАВЕРШЕН", value: "DONE" }
+    ],
+    meats: [
+      { text: "Говядина", value: "BEEF" },
+      { text: "Свинина", value: "PORK" },
+      { text: "Баранина", value: "MUTTON" }
+    ],
+    allProviders: [],
   },
   getters: {
     errorDialog(state) {
@@ -40,9 +50,9 @@ export default new Vuex.Store({
     clearError(state) {
       state.error = null
     },
-    setRightDrawer(state, payload) {
-      state.rightDrawer = payload
-    }
+    setAllProviders(state, payload) {
+      state.allProviders = payload
+    },
   },
   actions: {
     autoLogin({
@@ -61,6 +71,17 @@ export default new Vuex.Store({
       commit('setUser', null)
       window.localStorage.removeItem('authToken')
       router.push('/login')
-    }
+    },
+    loadAllProviders({ commit }) {
+      axiosInst.get('/api/providers', {
+        params: {
+          search: ''
+        }
+      }) // загрузка всех поставщиков при создании App (временное решение)
+        .then(resp => {
+          commit('setAllProviders', resp.data.providers);
+        })
+        .catch(console.error);
+    },
   }
 })

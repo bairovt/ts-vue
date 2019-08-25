@@ -78,6 +78,10 @@ export default {
     logout() {
       this.$store.dispatch("logout");
     }
+  },
+  mounted() {
+    // подгрузка родов после обновлении любой страницы, когда user loged in
+    if (this.$store.state.user) this.$store.dispatch("loadAllProviders"); //todo? переместить в другое место
   }
 };
 </script>

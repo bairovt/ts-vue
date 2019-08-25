@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
+// import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 import Users from './views/Users.vue'
 import Providers from './views/Providers.vue'
 import Provider from './views/Provider.vue'
+import Orders from './views/Orders.vue'
+import Order from './views/Order.vue'
 
 Vue.use(Router)
 
@@ -14,8 +16,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home
+      redirect: '/orders'
     },
     {
       path: '/login',
@@ -36,6 +37,16 @@ export default new Router({
       path: '/providers/:_key',
       name: 'provider',
       component: Provider
+    },
+    {
+      path: '/orders',
+      name: 'orders',
+      component: Orders
+    },
+    {
+      path: '/orders/:_key',
+      name: 'order',
+      component: Order
     },
     {
       path: '/about',
