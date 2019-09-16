@@ -17,12 +17,14 @@ export default new Vuex.Store({
     },
     statuses: [
       { text: "СОЗДАН", value: "CREATED" },
-      { text: "ЗАВЕРШЕН", value: "DONE" }
+      { text: "ЗАВЕРШЕН", value: "DONE" },
+      { text: "НЕ ВЫПОЛНЕН", value: "FAILED" }
     ],
     meats: [
       { text: "Говядина", value: "BEEF" },
       { text: "Свинина", value: "PORK" },
-      { text: "Баранина", value: "MUTTON" }
+      { text: "Баранина", value: "MUTTON" },
+      { text: "Конина", value: "HORSE" }
     ],
     allProviders: [],
   },
