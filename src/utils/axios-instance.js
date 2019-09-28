@@ -3,9 +3,7 @@ const axios = require('axios');
 import store from '@/store'
 
 const axiosInst = axios.create({
-  // baseURL: process.env.VUE_APP_API_URL,
-  baseURL: 'http://localhost:7000',
-  // baseURL: 'http://ts.helped.me',
+  baseURL: process.env.VUE_APP_API_URL,
   timeout: process.env.NODE_ENV === 'development' ? 60000 : 10000 // todo: error dialog when canceled by timeout
 });
 

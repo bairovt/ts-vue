@@ -5,10 +5,10 @@
     </v-subheader>
     <v-layout row wrap v-if="provider._key">
       <v-flex xs12 class="mb-3">
-        <h2>
-          {{provider.name}}
+        <h2>{{provider.name}}</h2>
+        <h3>
           <a :href="`tel:${provider.tel}`">{{provider.tel}}</a>
-        </h2>
+        </h3>
         <br />
         <div>{{provider.comment}}</div>
         <br />
