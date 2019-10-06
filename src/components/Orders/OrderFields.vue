@@ -21,11 +21,18 @@
       <v-date-picker v-model="order.date" no-title @input="dateMenu = false" locale="ru-ru"></v-date-picker>
     </v-menu>
 
-    <v-select :autofocus="true" v-model="order.meat" :items="meats" label="Мясо"></v-select>
+    <v-select
+      :rules="[rules.required]"
+      :autofocus="true"
+      v-model="order.meat"
+      :items="meats"
+      label="Мясо"
+    ></v-select>
 
-    <v-text-field name="kg" label="Вес кг" type="text" v-model="order.kg"></v-text-field>
+    <v-text-field :rules="[rules.required]" name="kg" label="Вес кг" type="text" v-model="order.kg"></v-text-field>
 
     <v-autocomplete
+      :rules="[rules.required]"
       :items="allProviders"
       v-model="order.provider"
       label="Поставщик"
@@ -59,6 +66,9 @@ export default {
     },
     allProviders() {
       return this.$store.state.allProviders;
+    },
+    rules() {
+      return this.$store.state.rules;
     }
   }
 };

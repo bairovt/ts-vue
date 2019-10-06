@@ -22,14 +22,15 @@
     <v-dialog v-model="createDialog" max-width="600px" :fullscreen="$vuetify.breakpoint.xsOnly">
       <v-card>
         <v-card-title class="grey lighten-2">Создать заказ</v-card-title>
-
-        <v-card-text>
-          <order-fields :order="newOrder"></order-fields>
-        </v-card-text>
-        <v-card-actions class="text-xs-center">
-          <v-btn small @click.stop="createOrder" class="primary" :loading="loading">Создать</v-btn>
-          <v-btn small class="ml-3" @click.stop="createDialog=false">Отмена</v-btn>
-        </v-card-actions>
+        <v-form ref="createOrderForm">
+          <v-card-text>
+            <order-fields :order="newOrder"></order-fields>
+          </v-card-text>
+          <v-card-actions class="text-xs-center">
+            <v-btn small @click.stop="createOrder" class="primary" :loading="loading">Создать</v-btn>
+            <v-btn small class="ml-3" @click.stop="createDialog=false">Отмена</v-btn>
+          </v-card-actions>
+        </v-form>
       </v-card>
     </v-dialog>
   </v-container>
@@ -82,14 +83,16 @@ export default {
         .catch(console.error);
     },
     createOrder() {
-      axiosInst
-        .post(`/api/orders`, {
-          orderData: this.newOrder
-        })
-        .then(() => {
-          this.applyFilter();
-          this.createDialog = false;
-        });
+      if (this.$refs.createOrderForm.validate()) {
+        axiosInst
+          .post(`/api/orders`, {
+            orderData: this.newOrder
+          })
+          .then(() => {
+            this.applyFilter();
+            this.createDialog = false;
+          });
+      }
     }
   },
   created() {
