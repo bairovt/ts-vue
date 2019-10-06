@@ -22,12 +22,18 @@
     <v-dialog v-model="createDialog" max-width="600px" :fullscreen="$vuetify.breakpoint.xsOnly">
       <v-card>
         <v-card-title class="grey lighten-2">Создать заказ</v-card-title>
-        <v-form ref="createOrderForm">
+        <v-form v-model="createOrderFormIsValid" ref="createOrderForm">
           <v-card-text>
             <order-fields :order="newOrder"></order-fields>
           </v-card-text>
           <v-card-actions class="text-xs-center">
-            <v-btn small @click.stop="createOrder" class="primary" :loading="loading">Создать</v-btn>
+            <v-btn
+              small
+              @click.stop="createOrder"
+              class="primary"
+              :loading="loading"
+              :disabled="!createOrderFormIsValid"
+            >Создать</v-btn>
             <v-btn small class="ml-3" @click.stop="createDialog=false">Отмена</v-btn>
           </v-card-actions>
         </v-form>
@@ -52,7 +58,8 @@ export default {
       filter: {
         status: "CREATED",
         meat: null
-      }
+      },
+      createOrderFormIsValid: false
     };
   },
   computed: {
