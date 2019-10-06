@@ -1,20 +1,15 @@
 <template>
-  <v-container class="pa-0">
+  <v-container class>
+    <v-subheader>Заказы</v-subheader>
     <v-layout row wrap>
       <v-flex xs12>
-        <form @submit.prevent="filter">
-          <v-container>
-            <v-layout row wrap>
-              <v-flex xs0 sm1></v-flex>
-              <!-- отступ -->
-              <v-flex xs4 sm2>
-                <v-btn small round type="submit" class="primary" :loading="loading">Найти</v-btn>
-              </v-flex>
-              <v-flex xs4 sm2>
-                <v-btn small round @click="createDialog=true" :loading="loading">Создать</v-btn>
-              </v-flex>
-            </v-layout>
-          </v-container>
+        <form @submit.prevent="applyFilter">
+          <v-select dense v-model="filter.status" :items="statuses" label="Статус"></v-select>
+          <v-select dense clearable v-model="filter.meat" :items="meats" label="Мясо"></v-select>
+
+          <v-btn small round type="submit" class="primary" :loading="loading">Найти</v-btn>
+
+          <v-btn small round @click="createDialog=true" :loading="loading">Создать</v-btn>
         </form>
       </v-flex>
 
@@ -52,22 +47,33 @@ export default {
         comment: null
       },
       noResults: false,
-      createDialog: false
+      createDialog: false,
+      filter: {
+        status: "CREATED",
+        meat: null
+      }
     };
   },
   computed: {
     loading() {
       return this.$store.state.loading;
+    },
+    statuses() {
+      return this.$store.state.statuses;
+    },
+    meats() {
+      return this.$store.state.meats;
     }
   },
   methods: {
-    filter() {
+    applyFilter() {
       this.noResults = false;
       axiosInst
         .get(`/api/orders`, {
-          // params: {
-          //   search
-          // }
+          params: {
+            status: this.filter.status,
+            meat: this.filter.meat
+          }
         })
         .then(resp => {
           this.orders = resp.data.orders;
@@ -81,13 +87,13 @@ export default {
           orderData: this.newOrder
         })
         .then(() => {
-          this.filter();
+          this.applyFilter();
           this.createDialog = false;
         });
     }
   },
   created() {
-    this.filter();
+    this.applyFilter();
   }
 };
 </script>

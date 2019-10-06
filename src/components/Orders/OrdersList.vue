@@ -6,7 +6,8 @@
           <v-list-tile-title>
             <span class="grey--text text--lighten-1">{{order.date | ruDate}}</span>
             {{order.meat | meatName}}
-            <span>{{order.kg}} кг</span>
+            <span>{{order.kg}} /</span>
+            <span>{{order.kgFact}} кг</span>
           </v-list-tile-title>
           <v-list-tile-sub-title
             :to="`/providers/${order.provider}`"

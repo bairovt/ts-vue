@@ -16,9 +16,9 @@ export default new Vuex.Store({
       email: (v) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,5})+$/.test(v) || 'E-mail must be valid'
     },
     statuses: [
-      { text: "СОЗДАН", value: "CREATED" },
-      { text: "ЗАВЕРШЕН", value: "DONE" },
-      { text: "НЕ ВЫПОЛНЕН", value: "FAILED" }
+      { text: "Создан", value: "CREATED" },
+      { text: "Привез", value: "DELIVERED" },
+      { text: "Не привез", value: "FAILED" }
     ],
     meats: [
       { text: "Говядина", value: "BEEF" },

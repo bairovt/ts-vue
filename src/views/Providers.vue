@@ -1,23 +1,16 @@
 <template>
-  <v-container class="pa-0">
+  <v-container>
     <v-layout row wrap>
       <v-flex xs12>
+        <v-subheader>Поставщики</v-subheader>
+      </v-flex>
+
+      <v-flex xs12>
         <form @submit.prevent="find">
-          <v-container>
-            <v-layout row wrap>
-              <v-flex xs0 sm1></v-flex>
-              <!-- отступ -->
-              <v-flex xs12 sm8>
-                <v-text-field autofocus clearable label="Поиск" v-model="search"></v-text-field>
-              </v-flex>
-              <v-flex xs4 sm2>
-                <v-btn small round type="submit" class="primary" :loading="loading">Найти</v-btn>
-              </v-flex>
-              <v-flex xs4 sm2>
-                <v-btn small round @click="createDialog=true" :loading="loading">Создать</v-btn>
-              </v-flex>
-            </v-layout>
-          </v-container>
+          <!-- отступ -->
+          <v-text-field autofocus clearable label="Поиск" v-model="search"></v-text-field>
+          <v-btn small round type="submit" class="primary" :loading="loading">Найти</v-btn>
+          <v-btn small round @click="createDialog=true" :loading="loading">Создать</v-btn>
         </form>
       </v-flex>
 
