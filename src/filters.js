@@ -34,7 +34,7 @@ function ruDate(ISOdate) {
   if (!ISOdate) return null;
   const date = ISOdate.split('T')[0]; // year-month-day part
   const [year, month, day] = date.split('-');
-  return `${day}.${month}.${year}`;
+  return `${day}.${month}.${year - 2000}`;
 }
 
 function status(value) {

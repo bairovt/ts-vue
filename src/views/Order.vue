@@ -6,7 +6,12 @@
 
     <v-layout row wrap v-if="order._key">
       <v-flex xs12 class="mb-3">
-        <p>{{order.date | ruDate}}</p>
+        <p>
+          {{order.status | status}}
+          <span>{{order.kgFact}}</span>
+        </p>
+
+        <span>{{order.date | ruDate}}</span>
         <h2>
           {{order.meat | meatName}}
           <span small>{{order.kg}} кг</span>
@@ -24,7 +29,9 @@
       <v-flex xs12 sm3 class="text-xs-center">
         <!-- <div v-if="order.editable"> -->
         <div v-if="order._key">
+          <v-btn small color="success" @click.stop="deliverOrder">Привез</v-btn>
           <v-btn small color="accent" @click.stop="editDialog=true">Изменить</v-btn>
+          <!-- <v-btn small color="warning" @click.stop="notDeliveredOrder=true">Не привез</v-btn> -->
           <v-btn flat outline small @click.stop="deleteOrder">Удалить</v-btn>
         </div>
       </v-flex>
@@ -78,6 +85,19 @@ export default {
           this.order = resp.data.order;
         })
         .catch(console.error);
+    },
+    deliverOrder() {
+      const kgFact = +prompt(`Привез кг:`, 0);
+      if (kgFact) {
+        axiosInst
+          .post(`/api/orders/${this.order._key}/deliver`, {
+            kgFact
+          })
+          .then(() => {
+            this.$router.push("/orders");
+          })
+          .catch(console.error);
+      }
     },
     updateOrder() {
       axiosInst
