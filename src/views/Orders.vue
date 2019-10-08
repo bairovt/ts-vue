@@ -1,16 +1,43 @@
 <template>
-  <v-container class>
-    <v-subheader>Заказы</v-subheader>
+  <v-container>
+    <v-layout row wrap>
+      <v-flex xs6>
+        <v-subheader>Заказы</v-subheader>
+      </v-flex>
+      <v-flex xs6>
+        <v-btn small round @click="createDialog=true" :loading="loading">Создать</v-btn>
+      </v-flex>
+    </v-layout>
+
     <v-layout row wrap>
       <v-flex xs12>
-        <form @submit.prevent="applyFilter">
-          <v-select dense v-model="filter.status" :items="statuses" label="Статус"></v-select>
-          <v-select dense clearable v-model="filter.meat" :items="meats" label="Мясо"></v-select>
+        <v-container class="pa-0">
+          <form @submit.prevent="applyFilter">
+            <v-layout row wrap>
+              <v-flex xs5 sm2>
+                <v-select dense v-model="filter.status" :items="statuses" label="Статус"></v-select>
+              </v-flex>
+              <v-flex xs1></v-flex>
+              <v-flex xs5 sm2>
+                <v-select dense clearable v-model="filter.meat" :items="meats" label="Мясо"></v-select>
+              </v-flex>
+              <v-flex xs1></v-flex>
+              <v-flex xs11 sm6>
+                <v-autocomplete
+                  :items="allProviders"
+                  v-model="filter.provider"
+                  label="Поставщик"
+                  item-text="name"
+                  item-value="_key"
+                  dense
+                  clearable
+                ></v-autocomplete>
+              </v-flex>
 
-          <v-btn small round type="submit" class="primary" :loading="loading">Найти</v-btn>
-
-          <v-btn small round @click="createDialog=true" :loading="loading">Создать</v-btn>
-        </form>
+              <v-btn small round type="submit" class="primary" :loading="loading">Найти</v-btn>
+            </v-layout>
+          </form>
+        </v-container>
       </v-flex>
 
       <v-flex xs12>
@@ -46,6 +73,7 @@
 import axiosInst from "@/utils/axios-instance";
 
 export default {
+  name: "Orders",
   data() {
     return {
       orders: [],
@@ -57,7 +85,8 @@ export default {
       createDialog: false,
       filter: {
         status: "CREATED",
-        meat: null
+        meat: null,
+        provider: null
       },
       createOrderFormIsValid: false
     };
@@ -71,6 +100,9 @@ export default {
     },
     meats() {
       return this.$store.state.meats;
+    },
+    allProviders() {
+      return this.$store.state.allProviders;
     }
   },
   methods: {
@@ -80,7 +112,8 @@ export default {
         .get(`/api/orders`, {
           params: {
             status: this.filter.status,
-            meat: this.filter.meat
+            meat: this.filter.meat,
+            provider: this.filter.provider
           }
         })
         .then(resp => {
