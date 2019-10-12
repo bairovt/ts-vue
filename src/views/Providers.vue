@@ -1,16 +1,20 @@
 <template>
   <v-container>
     <v-layout row wrap>
-      <v-flex xs12>
+      <v-flex xs6>
         <v-subheader>Поставщики</v-subheader>
       </v-flex>
+      <v-flex xs6>
+        <v-btn small round @click="createDialog=true" :loading="loading">Создать</v-btn>
+      </v-flex>
+    </v-layout>
 
+    <v-layout row wrap>
       <v-flex xs12>
         <form @submit.prevent="find">
           <!-- отступ -->
-          <v-text-field autofocus clearable label="Поиск" v-model="search"></v-text-field>
+          <v-text-field autofocus clearable label="Поиск по имени и тел" v-model="search"></v-text-field>
           <v-btn small round type="submit" class="primary" :loading="loading">Найти</v-btn>
-          <v-btn small round @click="createDialog=true" :loading="loading">Создать</v-btn>
         </form>
       </v-flex>
 
