@@ -13,7 +13,17 @@ export default new Vuex.Store({
     error: null,
     rules: {
       required: (v) => !!v || 'Обязательное поле',
-      email: (v) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,5})+$/.test(v) || 'E-mail must be valid'
+      email: (v) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,5})+$/.test(v) || 'E-mail must be valid',
+      min: (min) => {
+        return (v) => {
+          if (v && v.length >= min) {
+            return true
+          } else {
+            return `Мин. длина: ${min}`
+          }
+        }
+      },
+      num: (v) => Number.isFinite(+v) || 'Числовое поле'
     },
     statuses: [
       { text: "Создан", value: "CREATED" },

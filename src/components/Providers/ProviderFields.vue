@@ -6,10 +6,16 @@
       type="text"
       :autofocus="true"
       v-model="provider.name"
-      required
+      :rules="[rules.required, rules.min(2)]"
     ></v-text-field>
 
-    <v-text-field name="tel" label="телефон" type="text" v-model="provider.tel"></v-text-field>
+    <v-text-field
+      name="tel"
+      label="телефон"
+      type="text"
+      v-model="provider.tel"
+      :rules="[rules.required, rules.min(5)]"
+    ></v-text-field>
     <v-text-field name="place" label="место" type="text" v-model="provider.place"></v-text-field>
 
     <v-textarea
@@ -32,6 +38,10 @@ export default {
   data() {
     return {};
   },
-  computed: {}
+  computed: {
+    rules() {
+      return this.$store.state.rules;
+    }
+  }
 };
 </script>

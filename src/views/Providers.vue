@@ -29,10 +29,18 @@
         <v-card-title class="grey lighten-2">Создать поставщика</v-card-title>
 
         <v-card-text>
-          <provider-fields :provider="newProvider"></provider-fields>
+          <v-form v-model="createProviderFromIsValid" ref="createProviderForm">
+            <provider-fields :provider="newProvider"></provider-fields>
+          </v-form>
         </v-card-text>
         <v-card-actions class="text-xs-center">
-          <v-btn small @click.stop="createProvider" class="primary" :loading="loading">Создать</v-btn>
+          <v-btn
+            small
+            @click.stop="createProvider"
+            class="primary"
+            :loading="loading"
+            :disabled="!createProviderFromIsValid"
+          >Создать</v-btn>
           <v-btn small class="ml-3" @click.stop="createDialog=false">Отмена</v-btn>
         </v-card-actions>
       </v-card>
@@ -56,12 +64,16 @@ export default {
       },
       search: "",
       noResults: false,
-      createDialog: false
+      createDialog: false,
+      createProviderFromIsValid: false
     };
   },
   computed: {
     loading() {
       return this.$store.state.loading;
+    },
+    rules() {
+      return this.$store.state.rules;
     }
   },
   methods: {
@@ -81,16 +93,18 @@ export default {
         .catch(console.error);
     },
     createProvider() {
-      axiosInst
-        .post(`/api/providers`, {
-          providerData: this.newProvider
-        })
-        .then(() => {
-          this.search = "";
-          this.find();
-          this.createDialog = false;
-        })
-        .catch(console.error);
+      if (this.$refs.createProviderForm.validate()) {
+        axiosInst
+          .post(`/api/providers`, {
+            providerData: this.newProvider
+          })
+          .then(() => {
+            this.search = "";
+            this.find();
+            this.createDialog = false;
+          })
+          .catch(console.error);
+      }
     }
   },
   created() {
