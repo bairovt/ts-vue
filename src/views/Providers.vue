@@ -86,8 +86,9 @@ export default {
           providerData: this.newProvider
         })
         .then(() => {
+          this.search = "";
+          this.find();
           this.createDialog = false;
-          // this.$router.go();
         })
         .catch(console.error);
     }
