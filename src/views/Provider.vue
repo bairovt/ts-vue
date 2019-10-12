@@ -78,7 +78,7 @@ export default {
     },
     updateProvider() {
       axiosInst
-        .patch(`/api/providers/${this.provider._key}`, {
+        .post(`/api/providers/${this.provider._key}`, {
           providerData: {
             name: this.provider.name,
             tel: this.provider.tel,

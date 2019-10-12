@@ -26,12 +26,14 @@
         </div>
       </v-flex>
 
-      <v-flex xs12 sm3 class="text-xs-center">
+      <v-flex xs12 class="text-xs-center">
         <!-- <div v-if="order.editable"> -->
         <div v-if="order._key">
           <v-btn small color="success" @click.stop="deliverOrder">Привез</v-btn>
           <v-btn small color="accent" @click.stop="editDialog=true">Изменить</v-btn>
-          <!-- <v-btn small color="warning" @click.stop="notDeliveredOrder=true">Не привез</v-btn> -->
+          <v-btn small color="warning" @click.stop="failOrder">Не привез</v-btn>
+          <br />
+          <br />
           <v-btn flat outline small @click.stop="deleteOrder">Удалить</v-btn>
         </div>
       </v-flex>
@@ -99,9 +101,19 @@ export default {
           .catch(console.error);
       }
     },
+    failOrder() {
+      if (confirm(`Подтвердить что НЕ привез?`)) {
+        axiosInst
+          .post(`/api/orders/${this.order._key}/fail`)
+          .then(() => {
+            this.$router.push("/orders");
+          })
+          .catch(console.error);
+      }
+    },
     updateOrder() {
       axiosInst
-        .patch(`/api/orders/${this.order._key}`, {
+        .post(`/api/orders/${this.order._key}`, {
           orderData: {
             meat: this.order.meat,
             date: this.order.date,
