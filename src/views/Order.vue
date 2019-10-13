@@ -49,10 +49,18 @@
         <v-card-title class="grey lighten-2">Изменение заказа</v-card-title>
 
         <v-card-text>
-          <order-fields :order="order"></order-fields>
+          <v-form v-model="updateOrderFormIsValid" ref="updateOrderFrom">
+            <order-fields :order="order"></order-fields>
+          </v-form>
         </v-card-text>
         <v-card-actions class="text-xs-center">
-          <v-btn small @click.stop="updateOrder" class="primary" :loading="loading">Сохранить</v-btn>
+          <v-btn
+            small
+            @click.stop="updateOrder"
+            class="primary"
+            :loading="loading"
+            :disabled="!updateOrderFormIsValid"
+          >Сохранить</v-btn>
           <v-btn small class="ml-3" @click.stop="editDialog=false">Отмена</v-btn>
         </v-card-actions>
       </v-card>
@@ -68,7 +76,8 @@ export default {
     return {
       order: {},
       editDialog: false,
-      alertText: null
+      alertText: null,
+      updateOrderFormIsValid: false
     };
   },
   computed: {
@@ -112,21 +121,23 @@ export default {
       }
     },
     updateOrder() {
-      axiosInst
-        .post(`/api/orders/${this.order._key}`, {
-          orderData: {
-            meat: this.order.meat,
-            date: this.order.date,
-            kg: this.order.kg,
-            provider: this.order.provider,
-            comment: this.order.comment
-          }
-        })
-        .then(() => {
-          this.loadOrder();
-          this.editDialog = false;
-        })
-        .catch(console.error);
+      if (this.$refs.updateOrderFrom.validate()) {
+        axiosInst
+          .post(`/api/orders/${this.order._key}`, {
+            orderData: {
+              meat: this.order.meat,
+              date: this.order.date,
+              kg: this.order.kg,
+              provider: this.order.provider,
+              comment: this.order.comment
+            }
+          })
+          .then(() => {
+            this.loadOrder();
+            this.editDialog = false;
+          })
+          .catch(console.error);
+      }
     },
     deleteOrder() {
       if (confirm(`Подтвердить удаление заказа?`)) {

@@ -36,10 +36,18 @@
         <v-card-title class="grey lighten-2">Изменение поставщика</v-card-title>
 
         <v-card-text>
-          <provider-fields :provider="provider"></provider-fields>
+          <v-form v-model="updateProviderFormIsValid" ref="updateProviderForm">
+            <provider-fields :provider="provider"></provider-fields>
+          </v-form>
         </v-card-text>
         <v-card-actions class="text-xs-center">
-          <v-btn small @click.stop="updateProvider" class="primary" :loading="loading">Сохранить</v-btn>
+          <v-btn
+            small
+            @click.stop="updateProvider"
+            class="primary"
+            :loading="loading"
+            :disabled="!updateProviderFormIsValid"
+          >Сохранить</v-btn>
           <v-btn small class="ml-3" @click.stop="editDialog=false">Отмена</v-btn>
         </v-card-actions>
       </v-card>
@@ -56,7 +64,8 @@ export default {
     return {
       provider: {},
       editDialog: false,
-      alertText: null
+      alertText: null,
+      updateProviderFormIsValid: false
     };
   },
   computed: {
@@ -77,20 +86,22 @@ export default {
         .catch(console.error);
     },
     updateProvider() {
-      axiosInst
-        .post(`/api/providers/${this.provider._key}`, {
-          providerData: {
-            name: this.provider.name,
-            tel: this.provider.tel,
-            place: this.provider.place,
-            comment: this.provider.comment
-          }
-        })
-        .then(() => {
-          this.loadProvider();
-          this.editDialog = false;
-        })
-        .catch(console.error);
+      if (this.$refs.updateProviderForm.validate()) {
+        axiosInst
+          .post(`/api/providers/${this.provider._key}`, {
+            providerData: {
+              name: this.provider.name,
+              tel: this.provider.tel,
+              place: this.provider.place,
+              comment: this.provider.comment
+            }
+          })
+          .then(() => {
+            this.loadProvider();
+            this.editDialog = false;
+          })
+          .catch(console.error);
+      }
     },
     deleteProvider() {
       if (confirm(`Подтвердить удаление: ${this.provider.name}?`)) {
