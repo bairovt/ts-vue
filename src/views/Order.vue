@@ -61,7 +61,7 @@
             :loading="loading"
             :disabled="!updateOrderFormIsValid"
           >Сохранить</v-btn>
-          <v-btn small class="ml-3" @click.stop="editDialog=false">Отмена</v-btn>
+          <v-btn small class="ml-3" @click.stop="cancelUpdate">Отмена</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -90,7 +90,7 @@ export default {
   },
   methods: {
     loadOrder() {
-      axiosInst
+      return axiosInst
         .get(`/api/orders/${this.$route.params._key}`)
         .then(resp => {
           this.order = resp.data.order;
@@ -138,6 +138,11 @@ export default {
           })
           .catch(console.error);
       }
+    },
+    cancelUpdate() {
+      this.loadOrder().then(() => {
+        this.editDialog = false;
+      });
     },
     deleteOrder() {
       if (confirm(`Подтвердить удаление заказа?`)) {

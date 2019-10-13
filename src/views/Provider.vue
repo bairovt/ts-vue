@@ -48,7 +48,7 @@
             :loading="loading"
             :disabled="!updateProviderFormIsValid"
           >Сохранить</v-btn>
-          <v-btn small class="ml-3" @click.stop="editDialog=false">Отмена</v-btn>
+          <v-btn small class="ml-3" @click.stop="cancelUpdate">Отмена</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -78,7 +78,7 @@ export default {
   },
   methods: {
     loadProvider() {
-      axiosInst
+      return axiosInst
         .get(`/api/providers/${this.$route.params._key}`)
         .then(resp => {
           this.provider = resp.data.provider;
@@ -102,6 +102,11 @@ export default {
           })
           .catch(console.error);
       }
+    },
+    cancelUpdate() {
+      this.loadProvider().then(() => {
+        this.editDialog = false;
+      });
     },
     deleteProvider() {
       if (confirm(`Подтвердить удаление: ${this.provider.name}?`)) {
