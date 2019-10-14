@@ -7,6 +7,7 @@ import Providers from './views/Providers.vue'
 import Provider from './views/Provider.vue'
 import Orders from './views/Orders.vue'
 import Order from './views/Order.vue'
+import Report1 from './views/Report1.vue'
 
 Vue.use(Router)
 
@@ -47,6 +48,11 @@ export default new Router({
       path: '/orders/:_key',
       name: 'order',
       component: Order
+    },
+    {
+      path: '/reports/1',
+      name: 'report1',
+      component: Report1
     },
     {
       path: '/about',

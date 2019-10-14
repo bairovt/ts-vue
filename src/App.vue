@@ -13,6 +13,26 @@
           </v-list-tile-content>
         </v-list-tile>
 
+        <v-list-group prepend-icon="assessment" no-action>
+          <template v-slot:activator>
+            <v-list-tile>Отчеты</v-list-tile>
+          </template>
+          <v-list-tile v-for="(report, i) in reportItems" :key="i" :to="report.url">
+            <v-list-tile-content>
+              <v-list-tile-title v-text="report.title"></v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list-group>
+
+        <v-list-tile to="/users">
+          <v-list-tile-action>
+            <v-icon>account_circle</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Юзеры</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+
         <v-list-tile @click.stop="logout">
           <v-list-tile-action>
             <v-icon>exit_to_app</v-icon>
@@ -53,9 +73,9 @@ export default {
       leftDrawer: false,
       leftDrawerItems: [
         { icon: "assignment", title: "Заказы", url: "/orders" },
-        { icon: "supervisor_account", title: "Поставщики", url: "/providers" },
-        { icon: "account_circle", title: "Юзеры", url: "/users" }
-      ]
+        { icon: "supervisor_account", title: "Поставщики", url: "/providers" }
+      ],
+      reportItems: [{ title: "Заказы-Поставщики", url: "/reports/1" }]
     };
   },
   computed: {
@@ -80,7 +100,6 @@ export default {
     }
   },
   mounted() {
-    // подгрузка родов после обновлении любой страницы, когда user loged in
     if (this.$store.state.user) this.$store.dispatch("loadAllProviders"); //todo? переместить в другое место
   }
 };
