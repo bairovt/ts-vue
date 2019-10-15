@@ -23,7 +23,7 @@ export default new Vuex.Store({
           }
         }
       },
-      num: (v) => Number.isFinite(+v) || 'Числовое поле'
+      numeric: (v) => Number.isFinite(+v) || 'Числовое поле'
     },
     statuses: [
       { text: "Создан", value: "CREATED" },

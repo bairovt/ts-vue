@@ -29,7 +29,12 @@
       label="Мясо"
     ></v-select>
 
-    <v-text-field name="kg" label="Вес кг" v-model="order.kg" :rules="[rules.required, rules.num]"></v-text-field>
+    <v-text-field
+      name="kg"
+      label="Вес кг"
+      v-model="order.kg"
+      :rules="[rules.required, rules.numeric]"
+    ></v-text-field>
 
     <v-autocomplete
       :rules="[rules.required]"

@@ -98,17 +98,15 @@ export default {
         .catch(console.error);
     },
     deliverOrder() {
-      const kgFact = +prompt(`Привез кг:`, 0);
-      if (kgFact) {
-        axiosInst
-          .post(`/api/orders/${this.order._key}/deliver`, {
-            kgFact
-          })
-          .then(() => {
-            this.$router.push("/orders");
-          })
-          .catch(console.error);
-      }
+      const kgFact = +prompt(`Привез кг:`).trim();
+      axiosInst
+        .post(`/api/orders/${this.order._key}/deliver`, {
+          kgFact
+        })
+        .then(() => {
+          this.$router.push("/orders");
+        })
+        .catch(console.error);
     },
     failOrder() {
       if (confirm(`Подтвердить что НЕ привез?`)) {
