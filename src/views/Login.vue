@@ -17,15 +17,21 @@
             type="email"
             v-model="email"
             required
+            prepend-icon="account_circle"
           ></v-text-field>
           <v-text-field
             name="password"
             label="пароль"
             id="password"
-            type="password"
+            :type="showPassword ? 'text': 'password'"
             v-model="password"
+            prepend-icon="lock"
+            @click:append="showPassword = !showPassword"
+            :append-icon="showPassword ? 'visibility_off' : 'visibility'"
             required
           ></v-text-field>
+          <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
           <v-btn type="submit" class="primary" :loading="loading">Войти</v-btn>
         </form>
       </v-flex>
@@ -36,13 +42,13 @@
 <script>
 import axiosInst from "@/utils/axios-instance";
 import jwtDecode from "jwt-decode";
-// import { log } from "util";
 
 export default {
   data() {
     return {
       email: "",
-      password: ""
+      password: "",
+      showPassword: false
     };
   },
   computed: {
