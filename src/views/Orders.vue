@@ -78,8 +78,7 @@ export default {
     return {
       orders: [],
       newOrder: {
-        date: new Date().toISOString(),
-        comment: null
+        date: new Date().toISOString()
       },
       noResults: false,
       createDialog: false,
@@ -126,7 +125,13 @@ export default {
       if (this.$refs.createOrderForm.validate()) {
         axiosInst
           .post(`/api/orders`, {
-            orderData: this.newOrder
+            orderData: {
+              meat: this.newOrder.meat,
+              date: this.newOrder.date,
+              kg: this.newOrder.kg,
+              provider: this.newOrder.provider,
+              comment: this.newOrder.comment
+            }
           })
           .then(() => {
             this.applyFilter();

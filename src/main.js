@@ -13,6 +13,7 @@ import ProviderFields from './components/Providers/ProviderFields.vue'
 import OrdersList from './components/Orders/OrdersList.vue'
 import OrderFields from './components/Orders/OrderFields.vue'
 import UsersList from './components/Users/UsersList.vue'
+import ProviderSelection from './components/Shared/ProviderSelection'
 
 Vue.config.productionTip = false
 
@@ -23,6 +24,7 @@ Vue.component('provider-fields', ProviderFields)
 Vue.component('orders-list', OrdersList)
 Vue.component('order-fields', OrderFields)
 Vue.component('users-list', UsersList)
+Vue.component('provider-selection', ProviderSelection)
 
 new Vue({
   router,
