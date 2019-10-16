@@ -7,7 +7,6 @@ Vue.filter('sum', sum);
 Vue.filter('localeDate', localeDate);
 Vue.filter('status', status);
 Vue.filter('ruDate', ruDate);
-Vue.filter('providerName', providerName);
 Vue.filter('meatName', meatName);
 
 function keyFromId(id) {
@@ -20,14 +19,6 @@ function meatName(value) {
     return el.value === value;
   });
   return meat.text;
-}
-
-function providerName(providerId) {
-  if (!providerId) return null;
-  const provider = store.state.allProviders.find(el => {
-    return el._id === providerId;
-  });
-  return provider ? provider.name : null;
 }
 
 function ruDate(ISOdate) {

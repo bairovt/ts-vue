@@ -9,9 +9,7 @@
             <span>{{order.kg}} /</span>
             <span>{{order.kgFact}} кг</span>
           </v-list-tile-title>
-          <v-list-tile-sub-title
-            :to="`/providers/${order.provider}`"
-          >{{order.provider | providerName}}</v-list-tile-sub-title>
+          <v-list-tile-sub-title :to="`/providers/${order.provider}`">{{order.provider.name}}</v-list-tile-sub-title>
           <v-list-tile-sub-title>{{order.comment}}</v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>

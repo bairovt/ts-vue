@@ -16,7 +16,7 @@
           {{order.meat | meatName}}
           <span small>{{order.kg}} кг</span>
         </h2>
-        <h3>{{order.provider | providerName}}</h3>
+        <h3>{{order.provider.name}}</h3>
         <br />
         <div>{{order.comment}}</div>
         <br />
