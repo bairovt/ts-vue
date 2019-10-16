@@ -27,10 +27,9 @@
       </v-flex>
 
       <v-flex xs12 class="text-xs-center">
-        <!-- <div v-if="order.editable"> -->
         <div v-if="order._key">
           <v-btn small color="success" @click.stop="deliverOrder">Привез</v-btn>
-          <v-btn small color="accent" @click.stop="editDialog=true">Изменить</v-btn>
+          <v-btn small color="accent" @click.stop="openUpdateDialog">Изменить</v-btn>
           <v-btn small color="warning" @click.stop="failOrder">Не привез</v-btn>
           <br />
           <br />
@@ -41,7 +40,7 @@
 
     <v-dialog
       v-if="order._key"
-      v-model="editDialog"
+      v-model="updateDialog"
       max-width="600px"
       :fullscreen="$vuetify.breakpoint.xsOnly"
     >
@@ -50,7 +49,7 @@
 
         <v-card-text>
           <v-form v-model="updateOrderFormIsValid" ref="updateOrderFrom">
-            <order-fields :order="order"></order-fields>
+            <order-fields :order="updateOrderDto"></order-fields>
           </v-form>
         </v-card-text>
         <v-card-actions class="text-xs-center">
@@ -61,7 +60,7 @@
             :loading="loading"
             :disabled="!updateOrderFormIsValid"
           >Сохранить</v-btn>
-          <v-btn small class="ml-3" @click.stop="cancelUpdate">Отмена</v-btn>
+          <v-btn small class="ml-3" @click.stop="updateDialog=false">Отмена</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -70,12 +69,14 @@
 
 <script>
 import axiosInst from "@/utils/axios-instance";
+import cloneDeep from "lodash/cloneDeep";
 
 export default {
   data() {
     return {
       order: {},
-      editDialog: false,
+      updateOrderDto: {},
+      updateDialog: false,
       alertText: null,
       updateOrderFormIsValid: false
     };
@@ -118,30 +119,34 @@ export default {
           .catch(console.error);
       }
     },
+    openUpdateDialog() {
+      this.updateOrderDto = cloneDeep(this.order);
+      this.updateDialog = true;
+    },
     updateOrder() {
       if (this.$refs.updateOrderFrom.validate()) {
         axiosInst
           .post(`/api/orders/${this.order._key}`, {
             orderData: {
-              meat: this.order.meat,
-              date: this.order.date,
-              kg: this.order.kg,
-              provider: this.order.provider,
-              comment: this.order.comment
+              meat: this.updateOrderDto.meat,
+              date: this.updateOrderDto.date,
+              kg: this.updateOrderDto.kg,
+              provider: this.updateOrderDto.provider._id,
+              comment: this.updateOrderDto.comment
             }
           })
           .then(() => {
             this.loadOrder();
-            this.editDialog = false;
+            this.updateDialog = false;
           })
           .catch(console.error);
       }
     },
-    cancelUpdate() {
-      this.loadOrder().then(() => {
-        this.editDialog = false;
-      });
-    },
+    // cancelUpdate() {
+    //   this.loadOrder().then(() => {
+    //     this.updateDialog = false;
+    //   });
+    // },
     deleteOrder() {
       if (confirm(`Подтвердить удаление заказа?`)) {
         axiosInst

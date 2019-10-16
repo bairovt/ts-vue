@@ -51,7 +51,7 @@
         <v-card-title class="grey lighten-2">Создать заказ</v-card-title>
         <v-form v-model="createOrderFormIsValid" ref="createOrderForm">
           <v-card-text>
-            <order-fields :order="newOrder"></order-fields>
+            <order-fields :order="newOrderDto"></order-fields>
           </v-card-text>
           <v-card-actions class="text-xs-center">
             <v-btn
@@ -77,7 +77,7 @@ export default {
   data() {
     return {
       orders: [],
-      newOrder: {
+      newOrderDto: {
         date: new Date().toISOString()
       },
       noResults: false,
@@ -126,11 +126,11 @@ export default {
         axiosInst
           .post(`/api/orders`, {
             orderData: {
-              meat: this.newOrder.meat,
-              date: this.newOrder.date,
-              kg: this.newOrder.kg,
-              provider: this.newOrder.provider,
-              comment: this.newOrder.comment
+              meat: this.newOrderDto.meat,
+              date: this.newOrderDto.date,
+              kg: this.newOrderDto.kg,
+              provider: this.newOrderDto.provider._id,
+              comment: this.newOrderDto.comment
             }
           })
           .then(() => {

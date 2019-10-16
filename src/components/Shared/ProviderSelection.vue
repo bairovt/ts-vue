@@ -3,7 +3,9 @@
   <v-autocomplete
     :rules="[rules.required]"
     :items="allProviders"
-    v-model="order.provider"
+    v-model="provider"
+    @change="$emit('change', provider)"
+    return-object
     label="Поставщик"
     item-text="name"
     item-value="_id"
@@ -23,11 +25,8 @@
 <script>
 export default {
   props: {
-    order: {
+    value: {
       type: Object
-    },
-    provider: {
-      type: String
     }
     // rules: {
     //   type: Array
@@ -35,9 +34,14 @@ export default {
   },
   data() {
     return {
-      // provider: null,
+      provider: this.value,
       providers: []
     };
+  },
+  watch: {
+    value(v) {
+      this.provider = v;
+    }
   },
   computed: {
     allProviders() {
