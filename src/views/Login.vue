@@ -71,7 +71,6 @@ export default {
           const { authToken } = resp.data;
           window.localStorage.setItem("authToken", authToken);
           this.$store.commit("setUser", jwtDecode(authToken));
-          this.$store.dispatch("loadAllProviders");
           this.$router.push("/orders");
         })
         .catch(err => {

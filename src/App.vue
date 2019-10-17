@@ -75,7 +75,7 @@ export default {
         { icon: "assignment", title: "Заказы", url: "/orders" },
         { icon: "supervisor_account", title: "Поставщики", url: "/providers" }
       ],
-      reportItems: [{ title: "Заказы-Поставщики", url: "/reports/1" }]
+      reportItems: [{ title: "Отчет 1", url: "/reports/1" }]
     };
   },
   computed: {
@@ -99,8 +99,6 @@ export default {
       this.$store.dispatch("logout");
     }
   },
-  mounted() {
-    if (this.$store.state.user) this.$store.dispatch("loadAllProviders"); //todo? переместить в другое место
-  }
+  mounted() {}
 };
 </script>

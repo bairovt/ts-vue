@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import router from '@/router'
 import jwtDecode from 'jwt-decode'
-import axiosInst from '@/utils/axios-instance'
 
 Vue.use(Vuex)
 
@@ -35,8 +34,7 @@ export default new Vuex.Store({
       { text: "Свинина", value: "PORK" },
       { text: "Баранина", value: "MUTTON" },
       { text: "Конина", value: "HORSE" }
-    ],
-    allProviders: [],
+    ]
   },
   getters: {
     errorDialog(state) {
@@ -61,10 +59,7 @@ export default new Vuex.Store({
     },
     clearError(state) {
       state.error = null
-    },
-    setAllProviders(state, payload) {
-      state.allProviders = payload
-    },
+    }
   },
   actions: {
     autoLogin({
@@ -83,17 +78,6 @@ export default new Vuex.Store({
       commit('setUser', null)
       window.localStorage.removeItem('authToken')
       router.push('/login')
-    },
-    loadAllProviders({ commit }) {
-      axiosInst.get('/api/providers', {
-        params: {
-          search: ''
-        }
-      }) // загрузка всех поставщиков при создании App (временное решение)
-        .then(resp => {
-          commit('setAllProviders', resp.data.providers);
-        })
-        .catch(console.error);
-    },
+    }
   }
 })

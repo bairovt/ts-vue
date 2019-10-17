@@ -64,9 +64,7 @@ export default {
     meats() {
       return this.$store.state.meats;
     },
-    allProviders() {
-      return this.$store.state.allProviders;
-    },
+
     rules() {
       return this.$store.state.rules;
     }
