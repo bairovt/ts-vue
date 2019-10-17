@@ -36,7 +36,11 @@
       :rules="[rules.required, rules.numeric]"
     ></v-text-field>
 
-    <provider-selection :value="order.provider" @change="order.provider = $event"></provider-selection>
+    <provider-selection
+      :value="order.provider"
+      :rules="[rules.required]"
+      @change="order.provider = $event"
+    ></provider-selection>
 
     <v-textarea id="comment" name="comment" label="Комментарий" type="text" v-model="order.comment"></v-textarea>
   </div>

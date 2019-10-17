@@ -1,6 +1,6 @@
 <template>
   <v-autocomplete
-    :rules="[rules.required]"
+    :rules="rules"
     :items="providers"
     v-model="provider"
     @change="$emit('change', provider)"
@@ -33,10 +33,13 @@ export default {
   props: {
     value: {
       type: Object
+    },
+    rules: {
+      type: Array,
+      default() {
+        return [];
+      }
     }
-    // rules: {
-    //   type: Array
-    // }
   },
   data() {
     return {
@@ -58,9 +61,6 @@ export default {
   computed: {
     loading() {
       return this.$store.state.loading;
-    },
-    rules() {
-      return this.$store.state.rules;
     }
   },
   methods: {
