@@ -15,7 +15,6 @@
     hide-no-data
     clearable
     dense
-    append
   >
     <template v-slot:item="data">
       <v-list-tile-content>

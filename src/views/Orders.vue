@@ -23,15 +23,7 @@
               </v-flex>
               <v-flex xs1></v-flex>
               <v-flex xs11 sm6>
-                <v-autocomplete
-                  :items="allProviders"
-                  v-model="filter.provider"
-                  label="Поставщик"
-                  item-text="name"
-                  item-value="_key"
-                  dense
-                  clearable
-                ></v-autocomplete>
+                <provider-selection :value="filter.provider" @change="filter.provider = $event"></provider-selection>
               </v-flex>
 
               <v-btn small round type="submit" class="primary" :loading="loading">Найти</v-btn>
@@ -112,7 +104,7 @@ export default {
           params: {
             status: this.filter.status,
             meat: this.filter.meat,
-            provider: this.filter.provider
+            provider: this.filter.provider ? this.filter.provider._key : null
           }
         })
         .then(resp => {
