@@ -1,17 +1,21 @@
 <template>
-  <!-- @change="findProviders" -->
   <v-autocomplete
     :rules="[rules.required]"
-    :items="allProviders"
+    :items="providers"
     v-model="provider"
     @change="$emit('change', provider)"
+    :search-input.sync="search"
+    :loading="loading"
+    :filter="filter"
     return-object
     label="Поставщик"
     item-text="name"
     item-value="_id"
     menu-props="auto"
-    dense
+    hide-no-data
     clearable
+    dense
+    append
   >
     <template v-slot:item="data">
       <v-list-tile-content>
@@ -23,6 +27,8 @@
 </template>
 
 <script>
+import axiosInst from "@/utils/axios-instance";
+
 export default {
   props: {
     value: {
@@ -35,22 +41,48 @@ export default {
   data() {
     return {
       provider: this.value,
-      providers: []
+      providers: [],
+      search: null
     };
   },
   watch: {
     value(v) {
       this.provider = v;
+      this.providers = [this.value];
+    },
+    search(v) {
+      if (v) this.find();
+      else this.providers = [];
     }
   },
   computed: {
-    allProviders() {
-      return this.$store.state.allProviders;
+    loading() {
+      return this.$store.state.loading;
     },
     rules() {
       return this.$store.state.rules;
     }
   },
-  methods: {}
+  methods: {
+    find() {
+      axiosInst
+        .get(`/api/providers`, {
+          params: {
+            search: this.search
+          }
+        })
+        .then(resp => {
+          this.providers = resp.data.providers;
+          if (!this.providers.length) this.noResults = true;
+        })
+        .catch(console.error);
+    },
+    filter(item, queryText, itemText) {
+      return (
+        itemText.toLocaleLowerCase().indexOf(queryText.toLocaleLowerCase()) >
+          -1 || item.tel.indexOf(queryText) > -1
+      );
+    }
+  }
 };
 </script>
