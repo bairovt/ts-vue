@@ -29,8 +29,8 @@
 
       <v-flex xs12>
         <v-list v-if="rows.length" three-line>
-          <template v-for="row in rows">
-            <v-list-tile class="row_tile" :key="row._key">
+          <template v-for="(row, i) in rows">
+            <v-list-tile class="row_tile" :key="'r'+i">
               <v-list-tile-content>
                 <v-list-tile-title>{{row.provider}}</v-list-tile-title>
                 <v-list-tile-sub-title>Всего заказов: {{row.ordersCnt}}</v-list-tile-sub-title>
@@ -39,7 +39,7 @@
                 <v-list-tile-sub-title>Текущих: {{row.createdCnt}}</v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-divider class="mt-1 mb-1" :key="'d'+row._key"></v-divider>
+            <v-divider class="mt-1 mb-1" :key="'d'+i"></v-divider>
           </template>
         </v-list>
 
@@ -53,7 +53,7 @@
 import axiosInst from "@/utils/axios-instance";
 
 export default {
-  name: "Orders",
+  name: "Report1",
   data() {
     return {
       rows: [],
