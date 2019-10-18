@@ -5,7 +5,7 @@
         <v-subheader>Заказы</v-subheader>
       </v-flex>
       <v-flex xs6>
-        <v-btn small round @click="createDialog=true" :loading="loading">Создать</v-btn>
+        <v-btn small round @click="$store.state.createOrderDialog=true">Создать</v-btn>
       </v-flex>
     </v-layout>
 
@@ -38,26 +38,7 @@
       </v-flex>
     </v-layout>
 
-    <v-dialog v-model="createDialog" max-width="600px" :fullscreen="$vuetify.breakpoint.xsOnly">
-      <v-card>
-        <v-card-title class="grey lighten-2">Создать заказ</v-card-title>
-        <v-form v-model="createOrderFormIsValid" ref="createOrderForm">
-          <v-card-text>
-            <order-fields :order="newOrderDto"></order-fields>
-          </v-card-text>
-          <v-card-actions class="text-xs-center">
-            <v-btn
-              small
-              @click.stop="createOrder"
-              class="primary"
-              :loading="loading"
-              :disabled="!createOrderFormIsValid"
-            >Создать</v-btn>
-            <v-btn small class="ml-3" @click.stop="createDialog=false">Отмена</v-btn>
-          </v-card-actions>
-        </v-form>
-      </v-card>
-    </v-dialog>
+    <create-order-dialog></create-order-dialog>
   </v-container>
 </template>
 
@@ -69,17 +50,13 @@ export default {
   data() {
     return {
       orders: [],
-      newOrderDto: {
-        date: new Date().toISOString()
-      },
       noResults: false,
       createDialog: false,
       filter: {
         status: "CREATED",
         meat: null,
         provider: null
-      },
-      createOrderFormIsValid: false
+      }
     };
   },
   computed: {
@@ -109,24 +86,6 @@ export default {
           if (!this.orders.length) this.noResults = true;
         })
         .catch(console.error);
-    },
-    createOrder() {
-      if (this.$refs.createOrderForm.validate()) {
-        axiosInst
-          .post(`/api/orders`, {
-            orderData: {
-              meat: this.newOrderDto.meat,
-              date: this.newOrderDto.date,
-              kg: this.newOrderDto.kg,
-              provider: this.newOrderDto.provider._id,
-              comment: this.newOrderDto.comment
-            }
-          })
-          .then(() => {
-            this.applyFilter();
-            this.createDialog = false;
-          });
-      }
     }
   },
   created() {

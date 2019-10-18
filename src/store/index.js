@@ -34,7 +34,8 @@ export default new Vuex.Store({
       { text: "Свинина", value: "PORK" },
       { text: "Баранина", value: "MUTTON" },
       { text: "Конина", value: "HORSE" }
-    ]
+    ],
+    createOrderDialog: false
   },
   getters: {
     errorDialog(state) {

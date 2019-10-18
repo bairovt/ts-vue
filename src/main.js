@@ -14,6 +14,7 @@ import OrdersList from './components/Orders/OrdersList.vue'
 import OrderFields from './components/Orders/OrderFields.vue'
 import UsersList from './components/Users/UsersList.vue'
 import ProviderSelection from './components/Shared/ProviderSelection'
+import CreateOrderDialog from './components/Shared/CreateOrderDialog'
 
 Vue.config.productionTip = false
 
@@ -25,6 +26,7 @@ Vue.component('orders-list', OrdersList)
 Vue.component('order-fields', OrderFields)
 Vue.component('users-list', UsersList)
 Vue.component('provider-selection', ProviderSelection)
+Vue.component('create-order-dialog', CreateOrderDialog)
 
 new Vue({
   router,
