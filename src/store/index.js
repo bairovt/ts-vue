@@ -35,7 +35,8 @@ export default new Vuex.Store({
       { text: "Баранина", value: "MUTTON" },
       { text: "Конина", value: "HORSE" }
     ],
-    createOrderDialog: false
+    createOrderDialog: false,
+    newOrder: {}
   },
   getters: {
     errorDialog(state) {
@@ -60,6 +61,15 @@ export default new Vuex.Store({
     },
     clearError(state) {
       state.error = null
+    },
+    setCreateOrderDialog(state, payload) {
+      state.createOrderDialog = payload;
+    },
+    newOrderSetDate(state, payload) {
+      state.newOrder.date = payload;
+    },
+    clearNewOrder(state) {
+      state.newOrder = {};
     }
   },
   actions: {

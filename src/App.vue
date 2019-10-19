@@ -51,10 +51,6 @@
         <span class="font-weight-light">Ts</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <!-- <v-btn flat href="https://github.com/vuetifyjs/vuetify/releases/latest" target="_blank">
-        <span class="mr-2">Release</span>
-        <v-icon>open_in_new</v-icon>
-      </v-btn>-->
     </v-toolbar>
 
     <v-content>
@@ -62,6 +58,7 @@
     </v-content>
 
     <error-dialog />
+    <create-order-dialog v-if="createOrderDialog" :value="newOrder"></create-order-dialog>
   </v-app>
 </template>
 
@@ -92,6 +89,12 @@ export default {
       set() {
         this.$store.commit("clearError");
       }
+    },
+    createOrderDialog() {
+      return this.$store.state.createOrderDialog;
+    },
+    newOrder() {
+      return this.$store.state.newOrder;
     }
   },
   methods: {

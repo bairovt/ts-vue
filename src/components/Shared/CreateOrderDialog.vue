@@ -1,10 +1,15 @@
 <template>
-  <v-dialog v-model="createOrderDialog" max-width="600px" :fullscreen="$vuetify.breakpoint.xsOnly">
+  <v-dialog
+    :value="createOrderDialog"
+    @input="closeCreateOrderDialog"
+    max-width="600px"
+    :fullscreen="$vuetify.breakpoint.xsOnly"
+  >
     <v-card>
       <v-card-title class="grey lighten-2">Создать заказ</v-card-title>
       <v-form v-model="createOrderFormIsValid" ref="createOrderForm">
         <v-card-text>
-          <order-fields :order="newOrderDto"></order-fields>
+          <order-fields :order="newOrder"></order-fields>
         </v-card-text>
         <v-card-actions class="text-xs-center">
           <v-btn
@@ -14,7 +19,7 @@
             :loading="loading"
             :disabled="!createOrderFormIsValid"
           >Создать</v-btn>
-          <v-btn small class="ml-3" @click.stop="createDialog=false">Отмена</v-btn>
+          <v-btn small class="ml-3" @click.stop="closeCreateOrderDialog">Отмена</v-btn>
         </v-card-actions>
       </v-form>
     </v-card>
@@ -34,16 +39,13 @@ export default {
   data() {
     return {
       createOrderFormIsValid: false,
-      newOrderDto: {
-        date: new Date().toISOString()
-      }
+      newOrder: this.$props.value
     };
   },
   watch: {
-    // value(v) {
-    //   this.provider = v;
-    //   this.providers = [this.value];
-    // },
+    value(v) {
+      this.newOrder = v;
+    }
   },
   computed: {
     createOrderDialog: {
@@ -64,18 +66,25 @@ export default {
         axiosInst
           .post(`/api/orders`, {
             orderData: {
-              meat: this.newOrderDto.meat,
-              date: this.newOrderDto.date,
-              kg: this.newOrderDto.kg,
-              provider: this.newOrderDto.provider._id,
-              comment: this.newOrderDto.comment
+              meat: this.newOrder.meat,
+              date: this.newOrder.date,
+              kg: this.newOrder.kg,
+              provider: this.newOrder.provider._id,
+              comment: this.newOrder.comment
             }
           })
           .then(() => {
-            this.createOrderDialog = false;
+            this.closeCreateOrderDialog();
           });
       }
+    },
+    closeCreateOrderDialog() {
+      this.$store.commit("clearNewOrder");
+      this.$store.commit("setCreateOrderDialog", false);
     }
   }
+  // beforeMount() {
+  //   this.newOrder.date = new Date().toISOString();
+  // }
 };
 </script>

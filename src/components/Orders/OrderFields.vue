@@ -17,6 +17,7 @@
         label="дата поставки"
         prepend-icon="event"
         readonly
+        :rules="[rules.required]"
       ></v-text-field>
       <v-date-picker v-model="order.date" no-title @input="dateMenu = false" locale="ru-ru"></v-date-picker>
     </v-menu>

@@ -5,7 +5,7 @@
         <v-subheader>Заказы</v-subheader>
       </v-flex>
       <v-flex xs6>
-        <v-btn small round @click="$store.state.createOrderDialog=true">Создать</v-btn>
+        <v-btn small round @click="openCreateOrderDialog">Создать</v-btn>
       </v-flex>
     </v-layout>
 
@@ -37,8 +37,6 @@
         <p class="text-xs-center" v-if="noResults">Не найдено</p>
       </v-flex>
     </v-layout>
-
-    <create-order-dialog></create-order-dialog>
   </v-container>
 </template>
 
@@ -86,6 +84,10 @@ export default {
           if (!this.orders.length) this.noResults = true;
         })
         .catch(console.error);
+    },
+    openCreateOrderDialog() {
+      this.$store.commit("newOrderSetDate", new Date().toISOString());
+      this.$store.commit("setCreateOrderDialog", true);
     }
   },
   created() {
