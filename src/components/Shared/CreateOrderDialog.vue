@@ -32,20 +32,21 @@ import axiosInst from "@/utils/axios-instance";
 export default {
   name: "CreateOrderDialog",
   props: {
-    value: {
-      type: Object
-    }
+    // value: {
+    //   type: Object
+    // }
   },
   data() {
     return {
       createOrderFormIsValid: false,
-      newOrder: this.$props.value
+      // newOrder: this.$props.value
+      newOrder: this.$store.state.newOrder
     };
   },
   watch: {
-    value(v) {
-      this.newOrder = v;
-    }
+    // value(v) {
+    //   this.newOrder = v;
+    // }
   },
   computed: {
     createOrderDialog: {

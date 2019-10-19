@@ -58,7 +58,7 @@
     </v-content>
 
     <error-dialog />
-    <create-order-dialog v-if="createOrderDialog" :value="newOrder"></create-order-dialog>
+    <create-order-dialog v-if="createOrderDialog"></create-order-dialog>
   </v-app>
 </template>
 
@@ -92,9 +92,6 @@ export default {
     },
     createOrderDialog() {
       return this.$store.state.createOrderDialog;
-    },
-    newOrder() {
-      return this.$store.state.newOrder;
     }
   },
   methods: {
