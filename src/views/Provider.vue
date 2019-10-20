@@ -18,6 +18,9 @@
         </div>
       </v-flex>
 
+      <v-flex xs12 sm3 class="text-xs-center mb-3">
+        <v-btn small color="primary" @click.stop="openCreateOrderDialog">Создать заказ</v-btn>
+      </v-flex>
       <v-flex xs12 sm3 class="text-xs-center">
         <div v-if="provider.editable">
           <v-btn small color="accent" @click.stop="editDialog=true">Изменить</v-btn>
@@ -117,6 +120,16 @@ export default {
           })
           .catch(console.error);
       }
+    },
+    openCreateOrderDialog() {
+      this.$store.commit("setNewProps", {
+        stateProp: "newOrder",
+        newProps: {
+          date: new Date().toISOString(),
+          provider: this.provider
+        }
+      });
+      this.$store.commit("setCreateOrderDialog", true);
     }
   },
   created() {

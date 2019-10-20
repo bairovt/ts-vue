@@ -43,7 +43,7 @@ export default {
   data() {
     return {
       provider: this.value,
-      providers: [],
+      providers: this.value ? [this.value] : [],
       search: null
     };
   },

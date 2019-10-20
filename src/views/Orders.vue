@@ -86,7 +86,12 @@ export default {
         .catch(console.error);
     },
     openCreateOrderDialog() {
-      this.$store.commit("newOrderSetDate", new Date().toISOString());
+      this.$store.commit("setNewProps", {
+        stateProp: "newOrder",
+        newProps: {
+          date: new Date().toISOString()
+        }
+      });
       this.$store.commit("setCreateOrderDialog", true);
     }
   },

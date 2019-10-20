@@ -65,8 +65,8 @@ export default new Vuex.Store({
     setCreateOrderDialog(state, payload) {
       state.createOrderDialog = payload;
     },
-    newOrderSetDate(state, payload) {
-      state.newOrder.date = payload;
+    setNewProps(state, payload) {
+      state.newOrder = { ...state[payload.stateProp], ...payload.newProps };
     },
     clearNewOrder(state) {
       state.newOrder = {};

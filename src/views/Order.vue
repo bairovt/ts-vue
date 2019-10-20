@@ -16,7 +16,7 @@
           {{order.meat | meatName}}
           <span small>{{order.kg}} кг</span>
         </h2>
-        <h3>{{order.provider.name}}</h3>
+        <router-link :to="`/providers/${order.provider._key}`">{{order.provider.name}}</router-link>
         <br />
         <div>{{order.comment}}</div>
         <br />
