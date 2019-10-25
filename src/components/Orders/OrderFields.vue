@@ -57,15 +57,13 @@ export default {
   },
   data() {
     return {
-      dateMenu: false,
-      providers: []
+      dateMenu: false
     };
   },
   computed: {
     meats() {
       return this.$store.state.meats;
     },
-
     rules() {
       return this.$store.state.rules;
     }

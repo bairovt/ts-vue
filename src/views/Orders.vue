@@ -5,7 +5,7 @@
         <v-subheader>Заказы</v-subheader>
       </v-flex>
       <v-flex xs6>
-        <v-btn small round @click="openCreateOrderDialog">Создать</v-btn>
+        <v-btn small class="primary" round @click="openCreateOrderDialog">Создать</v-btn>
       </v-flex>
     </v-layout>
 
@@ -26,7 +26,7 @@
                 <provider-selection :value="filter.provider" @change="filter.provider = $event"></provider-selection>
               </v-flex>
 
-              <v-btn small round type="submit" class="primary" :loading="loading">Найти</v-btn>
+              <v-btn small round type="submit" class="info" :loading="loading">Найти</v-btn>
             </v-layout>
           </form>
         </v-container>
