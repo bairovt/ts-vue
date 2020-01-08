@@ -15,6 +15,7 @@ import OrderFields from './components/Orders/OrderFields.vue'
 import UsersList from './components/Users/UsersList.vue'
 import ProviderSelection from './components/Shared/ProviderSelection'
 import CreateOrderDialog from './components/Shared/CreateOrderDialog'
+import './registerServiceWorker'
 
 Vue.config.productionTip = false
 
